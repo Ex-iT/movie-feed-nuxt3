@@ -6,10 +6,11 @@
 		repellendus. Nulla asperiores sed unde ea odio corrupti molestiae.
 		Animi, maxime officia!
 	</p>
+	<NuxtLink to="/404"> 404 </NuxtLink>
 </template>
 
 <script lang="ts">
-export default {
+export default defineComponent({
 	name: 'HomePage',
-}
+})
 </script>
