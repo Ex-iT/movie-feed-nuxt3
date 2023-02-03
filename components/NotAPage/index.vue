@@ -2,18 +2,11 @@
 	<BackgroundImage />
 	<h1>This is not a page...</h1>
 	<p>What are you doing here? 👀</p>
-	<pre>{{ error }}</pre>
+	<pre>{{ error.message }}</pre>
 </template>
 
 <script lang="ts">
-interface ErrorObject {
-	url: string
-	statusCode: string
-	statusMessage: string
-	message: string
-	stack: string
-}
-
+import { ErrorObject } from '@/types/sharedTypes'
 export default defineComponent({
 	name: 'NotAPage',
 	props: {
@@ -23,8 +16,8 @@ export default defineComponent({
 		},
 	},
 
-	setup(props) {
-		console.log(props)
-	},
+	// setup(props) {
+	// 	console.log(props.error)
+	// },
 })
 </script>

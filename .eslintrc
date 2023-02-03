@@ -5,6 +5,7 @@
 		"es2021": true,
 		"node": true
 	},
+	"plugins": ["@typescript-eslint"],
 	"extends": [
 		"plugin:@typescript-eslint/recommended",
 		"plugin:nuxt/recommended",
@@ -13,14 +14,14 @@
 	],
 	"parserOptions": {
 		"ecmaVersion": "latest",
-		"parser": "@typescript-eslint/parser",
-		"sourceType": "module"
+		"parser": "@typescript-eslint/parser"
 	},
-	"plugins": ["@typescript-eslint"],
 	"rules": {
 		"camelcase": [
 			"error",
 			{ "allow": ["_", "ch_id", "deep_link", "channel_label"] }
-		]
+		],
+		"vue/prefer-template": "error",
+		"prefer-template": "error"
 	}
 }

@@ -5,13 +5,7 @@
 </template>
 
 <script lang="ts">
-interface ErrorObject {
-	url: string
-	statusCode: string
-	statusMessage: string
-	message: string
-	stack: string
-}
+import { ErrorObject } from '@/types/sharedTypes'
 
 export default defineComponent({
 	name: 'ErrorRoot',

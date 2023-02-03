@@ -46,3 +46,11 @@ export interface Status {
 	createdAt: string
 	log: ProgrammesLog
 }
+
+export interface ErrorObject {
+	url: string
+	statusCode: string | number
+	statusMessage: string
+	message: string
+	stack: string
+}
