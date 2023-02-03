@@ -1,0 +1,9 @@
+{
+	"extends": [
+		"stylelint-config-recommended-vue",
+		"stylelint-config-recess-order"
+	],
+	"rules": {
+		"declaration-no-important": true
+	}
+}

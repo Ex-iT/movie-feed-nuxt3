@@ -1,0 +1,132 @@
+:root {
+	--background-color-main: #000;
+	--foreground-color-main: #fff;
+	--highlight-color-main: #0070ff;
+	--error-color-main: #f44336;
+	--border-radius: 2px;
+	--spacing-small: 0.313rem;
+	--spacing-medium: 0.625rem;
+	--spacing-large: 1.25rem;
+	--spacing-extra-large: 1.875rem;
+}
+
+/*
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+/*
+    2. Remove default margin
+  */
+* {
+	margin: 0;
+}
+/*
+    3. Allow percentage-based heights in the application
+  */
+html,
+body {
+	height: 100%;
+}
+/*
+    Typographic tweaks!
+    4. Add accessible line-height
+    5. Improve text rendering
+  */
+body {
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+/*
+    6. Improve media defaults
+  */
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+/*
+    7. Remove built-in form typography styles
+  */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+/*
+    8. Avoid text overflows
+  */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+/*
+    9. Create a root stacking context
+  */
+#__nuxt {
+	height: 100%;
+	isolation: isolate;
+}
+
+h1 {
+	margin: 0 0 var(--spacing-large);
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+h2 {
+	margin: 0 0 var(--spacing-small);
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+p {
+	margin: 0;
+}
+
+i {
+	font-style: italic;
+}
+
+ul {
+	display: flex;
+	flex-direction: column;
+	row-gap: var(--spacing-medium);
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+main {
+	position: relative;
+	max-width: 1536px;
+	height: 100%;
+	padding: 1em;
+	margin: auto;
+	font-family: Arial, sans-serif;
+	line-height: 1.375em;
+	color: var(--foreground-color-main);
+}
+
+.a11y-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
+}
