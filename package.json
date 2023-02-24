@@ -8,7 +8,7 @@
 		"postinstall": "nuxt prepare",
 		"lint": "yarn lint:typescript && yarn lint:script && yarn lint:style",
 		"lint:script": "eslint --ext .ts,.js,.vue .",
-		"lint:style": "stylelint '**/*.{css,vue}'",
+		"lint:style": "stylelint **/*.{css,vue}",
 		"lint:typescript": "nuxt typecheck ."
 	},
 	"devDependencies": {
