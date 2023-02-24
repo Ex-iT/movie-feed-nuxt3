@@ -1,8 +1,8 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore'
 import { FIREBASE_COLLECTION } from '~~/config'
-import formatTime from '~~/lib/formatTime'
-import getFirestoreDb from '~~/lib/getFirestoreDb'
-import ucFirst from '~~/lib/ucFirst'
+import formatTime from '~~/utils/formatTime'
+import getFirestoreDb from '~~/utils/getFirestoreDb'
+import ucFirst from '~~/utils/ucFirst'
 
 const db = getFirestoreDb()
 const collection = db.collection(FIREBASE_COLLECTION)

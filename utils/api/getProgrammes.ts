@@ -1,7 +1,7 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore'
 import getDetails from './getDetails'
 import getMovies from './getMovies'
-import getFirestoreDb from '~~/lib/getFirestoreDb'
+import getFirestoreDb from '~~/utils/getFirestoreDb'
 import { FIREBASE_COLLECTION, HOUR_SEC } from '~~/config'
 import { Days, Programme, Programmes } from '~~/types/sharedTypes'
 
@@ -91,7 +91,8 @@ const getMovieData = async (): Promise<Programmes> => {
 }
 
 const getProgrammes = async (): Promise<Programmes> => {
-	if (await shouldUpdate()) {
+	// if (await shouldUpdate()) {
+	if (true) {
 		const programmes = await getMovieData()
 		const docName = String(new Date().getDay())
 		const docRef = collection.doc(docName)

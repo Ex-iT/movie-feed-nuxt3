@@ -3,5 +3,6 @@ import { Items } from './Items'
 
 export interface MetaData {
 	items?: Array<Items>
+	title?: string
 	guidance?: Array<Guidance>
 }

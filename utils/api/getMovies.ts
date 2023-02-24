@@ -7,30 +7,38 @@ import {
 	EMPTY_IMG,
 	DEEP_LINK,
 } from '~~/config'
-import fetchData from '~~/lib/fetchData'
-import formatDate from '~~/lib/formatDate'
-import formatHours from '~~/lib/formatHours'
-import formatTime from '~~/lib/formatTime'
-import getEpoch from '~~/lib/getEpoch'
-import getProgress from '~~/lib/getProgress'
-import { Days, ProgrammesRaw } from '~~/types/sharedTypes'
+import fetchData from '~~/utils/fetchData'
+import formatDate from '~~/utils/formatDate'
+import formatHours from '~~/utils/formatHours'
+import formatTime from '~~/utils/formatTime'
+import getEpoch from '~~/utils/getEpoch'
+import getProgress from '~~/utils/getProgress'
+import {
+	Days,
+	Either,
+	Error,
+	ProgrammeRaw,
+	ProgrammesRaw,
+} from '~~/types/sharedTypes'
 
-export default async function getMovies(day = Days.today) {
+export default async function getMovies(
+	day = Days.today
+): Promise<Either<Array<ProgrammeRaw>, Error>> {
 	try {
 		const url = `${MOVIES_URI}/?day=${day}`
-		const json = await fetchData(`${MOVIES_URI}/?day=${day}`)
+		const json = await fetchData<ProgrammesRaw>(`${MOVIES_URI}/?day=${day}`)
 
-		if (json) {
+		if (json.ok !== false && json.data?.length) {
 			return filterChannels(json.data || [])
 		}
 
-		return { ok: false, error: `Unable to fetch data from: ${url}` }
+		return { ok: false, statusText: `Unable to fetch data from: ${url}` }
 	} catch (error) {
-		return { ok: false, error: `Unable to fetch data. ${error}` }
+		return { ok: false, statusText: `Unable to fetch data. ${error}` }
 	}
 }
 
-const filterChannels = (channels: Array<ProgrammesRaw>) => {
+const filterChannels = (channels: Array<ProgrammeRaw>) => {
 	const channelData = channels.filter((channel) => {
 		return Object.keys(CHANNELS).includes(channel.ch_id)
 	})
@@ -38,7 +46,7 @@ const filterChannels = (channels: Array<ProgrammesRaw>) => {
 	return enrichData(channelData)
 }
 
-const enrichData = (channelData: Array<ProgrammesRaw>) => {
+const enrichData = (channelData: Array<ProgrammeRaw>) => {
 	const ONE_DAY = 24 * 3600
 	return channelData
 		.map((movie) => {

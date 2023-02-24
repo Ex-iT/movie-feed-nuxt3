@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { ErrorObject } from '@/types/sharedTypes'
+import { ErrorObject } from '~~/types/sharedTypes'
 
 export default defineComponent({
 	name: 'ErrorRoot',
