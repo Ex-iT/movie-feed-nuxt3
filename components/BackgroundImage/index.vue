@@ -1,13 +1,10 @@
 <template>
-	<picture>
-		<source type="image/webp" src="/img/bg.webp" />
-		<img
-			role="presentation"
-			loading="lazy"
-			decoding="async"
-			src="/img/bg.jpg"
-		/>
-	</picture>
+	<nuxt-picture
+		src="/img/bg.webp"
+		role="presentation"
+		loading="lazy"
+		decoding="async"
+	/>
 </template>
 
 <script lang="ts">
@@ -24,7 +21,8 @@ picture {
 	z-index: -1;
 }
 
-picture img {
+picture :deep(img) {
+	aspect-ratio: 4/3;
 	height: 100%;
 	object-fit: cover;
 	width: 100%;
