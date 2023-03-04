@@ -32,4 +32,4 @@ export const CACHING_DEFAULT = `public, max-age=${HOUR_SEC * 0.5}` // 30 minutes
 export const TICK_TIME = 1e3
 export const IMDB_URL = 'https://www.imdb.com/title/'
 export const YT_URL = 'https://www.youtube.com/watch?v='
-export const FIREBASE_COLLECTION = 'MovieFeed'
+export const FIREBASE_COLLECTION = 'MovieFeed_v2'

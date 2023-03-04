@@ -1,31 +1,49 @@
 import { DETAIL_URI } from '~~/config'
-import { DetailsRaw, Either, Error, MovieDetails } from '~~/types/sharedTypes'
+import { DetailsRaw, MovieDetails } from '~~/types/sharedTypes'
 import fetchData from '~~/utils/fetchData'
 
-export default async function getDetails(
-	id: string
-): Promise<Either<MovieDetails, Error>> {
+export default async function getDetails(id: string): Promise<MovieDetails> {
+	const url = `${DETAIL_URI}/${id}`
+	let movieDetails = {
+		generic: {
+			id: 0,
+			title: '',
+		},
+		metadata: {},
+	}
 	try {
-		const json = await fetchData<DetailsRaw>(`${DETAIL_URI}/${id}`)
+		const json = await fetchData<DetailsRaw>(url)
 
-		if (json.ok !== false && json.data) {
-			const details = json.data
-			delete details.linear
-			delete details.linearMore
-			delete details.streaming
-			delete details.streamingMore
-			delete details.tags
-			delete details.seasons
-			delete details.viewMore
-			delete details.news
-			delete details.meta
-			delete details.metadata.title
+		if (json.ok && json.data?.data) {
+			const data = json.data.data
+			delete data?.linear
+			delete data?.linearMore
+			delete data?.streaming
+			delete data?.streamingMore
+			delete data?.tags
+			delete data?.seasons
+			delete data?.viewMore
+			delete data?.news
+			delete data?.meta
+			delete data?.metadata.title
 
-			return details
+			movieDetails = data
 		}
 
-		return { ok: false, statusText: `Unable to fetch details for ${id}.` }
+		return {
+			data: movieDetails,
+			ok: false,
+			url,
+			status: 500,
+			statusText: `Unable to fetch details for ${id}.`,
+		}
 	} catch (error) {
-		return { ok: false, statusText: `Unable to fetch details for ${id}.` }
+		return {
+			data: movieDetails,
+			ok: false,
+			url,
+			status: 500,
+			statusText: `Unable to fetch details for ${id}.`,
+		}
 	}
 }

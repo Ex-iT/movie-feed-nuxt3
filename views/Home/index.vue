@@ -1,26 +1,20 @@
 <template>
-	<h1>page/index - pending: {{ pending }}</h1>
-	<pre>{{ data }}</pre>
+	<h1>views/home - pending: {{ status }}</h1>
+	<pre style="white-space: break-spaces">{{ data }}</pre>
 </template>
 
 <script lang="ts">
-defineComponent({
+export default {
 	name: 'HomeView',
 	props: {
 		data: {
 			type: Object,
-			default: null,
+			default: undefined,
 		},
-		pending: {
+		status: {
 			type: Boolean,
 			default: false,
 		},
 	},
-	// setup(props) {
-	// 	return {
-	// 		data: props.data,
-	// 		pending: props.peding,
-	// 	}
-	// },
-})
+}
 </script>

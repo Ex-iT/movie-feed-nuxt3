@@ -13,32 +13,44 @@ import formatHours from '~~/utils/formatHours'
 import formatTime from '~~/utils/formatTime'
 import getEpoch from '~~/utils/getEpoch'
 import getProgress from '~~/utils/getProgress'
-import {
-	Days,
-	Either,
-	Error,
-	ProgrammeRaw,
-	ProgrammesRaw,
-} from '~~/types/sharedTypes'
+import { Days, Movies, ProgrammeRaw, ProgrammesRaw } from '~~/types/sharedTypes'
+import { MovieData } from '~~/types/MovieData'
 
-export default async function getMovies(
-	day = Days.today
-): Promise<Either<Array<ProgrammeRaw>, Error>> {
+export default async function getMovies(day = Days.today): Promise<Movies> {
+	const url = `${MOVIES_URI}/?day=${day}`
+
 	try {
-		const url = `${MOVIES_URI}/?day=${day}`
 		const json = await fetchData<ProgrammesRaw>(`${MOVIES_URI}/?day=${day}`)
 
-		if (json.ok !== false && json.data?.length) {
-			return filterChannels(json.data || [])
+		if (json.ok) {
+			return {
+				data: filterChannels(json.data?.data || []),
+				ok: true,
+				url,
+				status: 200,
+				statusText: '',
+			}
 		}
 
-		return { ok: false, statusText: `Unable to fetch data from: ${url}` }
+		return {
+			data: [],
+			ok: false,
+			url,
+			status: 500,
+			statusText: `Unable to fetch data from: ${url}`,
+		}
 	} catch (error) {
-		return { ok: false, statusText: `Unable to fetch data. ${error}` }
+		return {
+			data: [],
+			ok: false,
+			url,
+			status: 500,
+			statusText: `Unable to fetch data. ${error}`,
+		}
 	}
 }
 
-const filterChannels = (channels: Array<ProgrammeRaw>) => {
+const filterChannels = (channels: Array<ProgrammeRaw>): Array<MovieData> => {
 	const channelData = channels.filter((channel) => {
 		return Object.keys(CHANNELS).includes(channel.ch_id)
 	})
@@ -46,7 +58,7 @@ const filterChannels = (channels: Array<ProgrammeRaw>) => {
 	return enrichData(channelData)
 }
 
-const enrichData = (channelData: Array<ProgrammeRaw>) => {
+const enrichData = (channelData: Array<ProgrammeRaw>): Array<MovieData> => {
 	const ONE_DAY = 24 * 3600
 	return channelData
 		.map((movie) => {

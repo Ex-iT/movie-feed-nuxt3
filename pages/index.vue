@@ -1,26 +1,16 @@
 <template>
-	<!-- <Home :data="data" :status="pending" /> -->
-	<pre>{{ data }}</pre>
+	<Home :data="data || {}" :status="pending" />
 </template>
 
 <script lang="ts">
 export default defineComponent({
 	name: 'IndexPage',
-	setup() {
-		return {
-			data: null,
-			pending: true,
-		}
-	},
-	async onMounted() {
-		// @TODO: use { pick: [...] } here to only get 'today' and 'tomorrow'
-		const { pending, data } = await useAsyncData('programmes', () =>
-			$fetch('/api/v1/programmes')
-		)
-		console.log(data)
+	async setup() {
+		const { pending, data } = await useLazyFetch('/api/v1/programmes')
+
 		return {
 			pending,
-			data,
+			data: data,
 		}
 	},
 })

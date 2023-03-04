@@ -3,7 +3,7 @@ import getDetails from './getDetails'
 import getMovies from './getMovies'
 import getFirestoreDb from '~~/utils/getFirestoreDb'
 import { FIREBASE_COLLECTION, HOUR_SEC } from '~~/config'
-import { Days, Programme, Programmes } from '~~/types/sharedTypes'
+import { Days, Programme, Programmes, Movies } from '~~/types/sharedTypes'
 
 const epoch = Math.floor(new Date().getTime() / 1000)
 const db = getFirestoreDb()
@@ -14,15 +14,14 @@ const getLatestDoc = async () => {
 		.orderBy('createdAt', 'desc')
 		.limit(1)
 		.get()
-	const docs: QueryDocumentSnapshot<DocumentData>[] = []
-	snapshot.forEach((doc) => docs.push(doc))
-	return docs[0]
+
+	return snapshot.docs.map((doc) => doc.data()).at(0)
 }
 
 const shouldUpdate = async () => {
-	const latestDoc = await getLatestDoc()
+	const latestDoc = (await getLatestDoc()) || []
 
-	if (latestDoc) {
+	if (latestDoc.length) {
 		const success = latestDoc.get('log.success')
 		const createdAt = latestDoc.get('createdAt')
 		const coolDownTime = HOUR_SEC * 3
@@ -33,6 +32,24 @@ const shouldUpdate = async () => {
 	return true
 }
 
+const mergeDetails = async (movies: Movies): Promise<Programme[]> => {
+	let mergedDetails: Programme[] = []
+	try {
+		mergedDetails = await Promise.all(
+			movies.data.map(async (movie) => {
+				const movieDetails = await getDetails(movie.main_id)
+				return { ...movie, details: movieDetails.data }
+			})
+		)
+	} catch (error) {
+		if (error instanceof Error) {
+			console.error({ error })
+		}
+	}
+
+	return mergedDetails
+}
+
 const getMovieData = async (): Promise<Programmes> => {
 	const messages: string[] = []
 	let success = true
@@ -40,39 +57,24 @@ const getMovieData = async (): Promise<Programmes> => {
 	let tomorrow: Programme[] = []
 
 	try {
-		const [todayProg, tomorrowProg] = await Promise.all([
-			getMovies(Days.today) as Promise<Programme[]>,
-			getMovies(Days.tomorrow) as Promise<Programme[]>,
+		const [moviesToday, moviesTomorrow] = await Promise.all([
+			getMovies(Days.today),
+			getMovies(Days.tomorrow),
 		])
 
-		// 'ok' is only in the object as the request fails and is set to false
-		if ('ok' in todayProg && 'ok' in tomorrowProg) {
+		if (!moviesToday.ok && !moviesToday.ok) {
 			success = false
 			messages.push('Unable to fetch movies data.')
 		}
 
-		try {
-			today = await Promise.all(
-				todayProg.map(async (prog) => {
-					prog.details = await getDetails(prog.main_id)
-					return prog
-				})
-			)
-		} catch (error) {
-			success = false
-			messages.push('Unable to fetch details for today.')
-		}
+		;[today, tomorrow] = await Promise.all([
+			mergeDetails(moviesToday),
+			mergeDetails(moviesTomorrow),
+		])
 
-		try {
-			tomorrow = await Promise.all(
-				tomorrowProg.map(async (prog) => {
-					prog.details = await getDetails(prog.main_id)
-					return prog
-				})
-			)
-		} catch (error) {
+		if (!today.length || !tomorrow.length) {
 			success = false
-			messages.push('Unable to fetch details for tomorrow.')
+			messages.push('Unable to fetch movie details.')
 		}
 	} catch (error) {
 		success = false
@@ -91,8 +93,7 @@ const getMovieData = async (): Promise<Programmes> => {
 }
 
 const getProgrammes = async (): Promise<Programmes> => {
-	// if (await shouldUpdate()) {
-	if (true) {
+	if (await shouldUpdate()) {
 		const programmes = await getMovieData()
 		const docName = String(new Date().getDay())
 		const docRef = collection.doc(docName)
@@ -103,7 +104,9 @@ const getProgrammes = async (): Promise<Programmes> => {
 		return programmes
 	} else {
 		// Return the latest programmes from Firestore
-		return (await (await getLatestDoc()).data()) as Programmes
+		return (
+			(await getLatestDoc()) as QueryDocumentSnapshot<DocumentData>
+		).data() as Programmes
 	}
 }
 

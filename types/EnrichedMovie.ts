@@ -1,6 +1,4 @@
-import { ProgrammesRaw } from './sharedTypes'
-
-export interface EnrichedProgrammesRaw extends ProgrammesRaw {
+export interface EnrichedMovie {
 	channel_logo: string
 	channel_label: string
 	start: string

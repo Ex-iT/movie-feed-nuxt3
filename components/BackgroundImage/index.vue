@@ -18,14 +18,15 @@ export default {
 
 <style scoped>
 picture {
-	position: fixed;
 	inset: 0;
+	pointer-events: none;
+	position: fixed;
 	z-index: -1;
 }
 
 picture img {
-	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	width: 100%;
 }
 </style>

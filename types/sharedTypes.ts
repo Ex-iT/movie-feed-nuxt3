@@ -1,6 +1,6 @@
-import { EnrichedProgrammesRaw } from './EnrichedProgrammesRaw'
-import { Generic } from './Generic'
+import { Details } from './Details'
 import { MetaData } from './MetaData'
+import { MovieData } from './MovieData'
 import { Versioning } from './Versioning'
 
 export enum Days {
@@ -77,13 +77,16 @@ export interface DetailsRaw extends Versioning {
 	}
 }
 
-export interface MovieDetails {
-	generic: Generic
-	metadata: MetaData
+export interface MovieDetails extends SimpleError {
+	data: Details
 }
 
-export interface Programme extends EnrichedProgrammesRaw {
-	details: MovieDetails
+export interface Programme extends MovieData {
+	details: Details
+}
+
+export interface Movies extends SimpleError {
+	data: Array<MovieData>
 }
 
 export interface ProgrammesLog {
@@ -111,17 +114,9 @@ export interface ErrorObject {
 	stack: string
 }
 
-export interface Error {
+export interface SimpleError {
 	ok: boolean
-	url?: string
-	status?: number
+	url: string
+	status: number
 	statusText: string
 }
-
-export type Only<T, U> = {
-	[P in keyof T]: T[P]
-} & {
-	[P in keyof U]?: never
-}
-
-export type Either<T, U> = Only<T, U> | Only<U, T>

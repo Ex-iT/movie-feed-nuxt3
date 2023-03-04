@@ -28,10 +28,6 @@ export default defineNuxtConfig({
 					rel: 'preconnect',
 					href: 'https://tvgidsassets.nl',
 				},
-				{
-					rel: 'manifest',
-					href: '/manifest.json',
-				},
 			],
 		},
 	},
@@ -39,4 +35,5 @@ export default defineNuxtConfig({
 	components: {
 		dirs: ['~/components', '~/views'],
 	},
+	modules: ['@nuxt/image-edge'],
 })

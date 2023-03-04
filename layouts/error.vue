@@ -1,7 +1,7 @@
 <template>
 	<main>
-		<BackgroundImage />
 		<slot />
+		<BackgroundImage />
 	</main>
 </template>
 
