@@ -1,12 +1,12 @@
 <template>
 	<main>
 		<slot />
-		<BackgroundImage />
+		<BackgroundImage src="/img/bg.webp" />
 	</main>
 </template>
 
-<script lang="ts">
-export default {
+<script setup lang="ts">
+defineComponent({
 	name: 'DefaultLayout',
-}
+})
 </script>

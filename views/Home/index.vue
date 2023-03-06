@@ -3,18 +3,19 @@
 	<pre style="white-space: break-spaces">{{ data }}</pre>
 </template>
 
-<script lang="ts">
-export default {
+<script setup lang="ts">
+defineComponent({
 	name: 'HomeView',
-	props: {
-		data: {
-			type: Object,
-			default: undefined,
-		},
-		status: {
-			type: Boolean,
-			default: false,
-		},
+})
+
+defineProps({
+	data: {
+		type: Object,
+		required: true,
 	},
-}
+	status: {
+		type: Boolean,
+		default: false,
+	},
+})
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<slot />
-		<BackgroundImage />
+		<BackgroundImage src="/img/bg.webp" />
 	</main>
 </template>
 

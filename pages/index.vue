@@ -2,16 +2,12 @@
 	<Home :data="data || {}" :status="pending" />
 </template>
 
-<script lang="ts">
-export default defineComponent({
+<script setup lang="ts">
+defineComponent({
 	name: 'IndexPage',
-	async setup() {
-		const { pending, data } = await useLazyFetch('/api/v1/programmes')
+})
 
-		return {
-			pending,
-			data: data,
-		}
-	},
+const { pending, data } = useLazyFetch('/api/v1/programmes', {
+	pick: ['today', 'tomorrow'],
 })
 </script>

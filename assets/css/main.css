@@ -93,6 +93,12 @@ h6 {
 }
 /* stylelint-enable selector-id-pattern */
 
+html,
+body {
+	color: var(--foreground-color-main);
+	background-color: var(--background-color-main);
+}
+
 h1 {
 	font-size: 1.5em;
 	font-weight: bold;
@@ -123,7 +129,6 @@ ul {
 }
 
 main {
-	color: var(--foreground-color-main);
 	font-family: Arial, sans-serif;
 	height: 100%;
 	line-height: 1.375em;

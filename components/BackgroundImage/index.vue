@@ -1,16 +1,20 @@
 <template>
 	<nuxt-picture
-		src="/img/bg.webp"
+		:src="src"
 		role="presentation"
 		loading="lazy"
 		decoding="async"
 	/>
 </template>
 
-<script lang="ts">
-export default {
+<script setup lang="ts">
+defineComponent({
 	name: 'BackgroundImage',
-}
+})
+
+defineProps<{
+	src: string
+}>()
 </script>
 
 <style scoped>

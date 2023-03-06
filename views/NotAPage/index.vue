@@ -2,30 +2,22 @@
 	<Head>
 		<Title>{{ title }}</Title>
 	</Head>
-	<BackgroundImage />
 	<h1>This is not a page...</h1>
 	<p>What are you doing here? 👀</p>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ErrorObject } from '~~/types/sharedTypes'
 
-export default defineComponent({
+defineComponent({
 	name: 'NotAPageView',
-	props: {
-		error: {
-			type: Object as () => ErrorObject,
-			default: null,
-		},
-	},
-	setup(props) {
-		const title = computed(() => {
-			return `Error ${props.error.statusCode} | IsHetAlDonderdag.nl`
-		})
+})
 
-		return {
-			title,
-		}
-	},
+const props = defineProps<{
+	error: ErrorObject
+}>()
+
+const title = computed(() => {
+	return `Error ${props.error.statusCode} | IsHetAlDonderdag.nl`
 })
 </script>

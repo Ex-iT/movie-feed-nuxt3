@@ -4,16 +4,14 @@
 	</NuxtLayout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ErrorObject } from '~~/types/sharedTypes'
 
-export default defineComponent({
+defineComponent({
 	name: 'ErrorRoot',
-	props: {
-		error: {
-			type: Object as () => ErrorObject,
-			default: null,
-		},
-	},
 })
+
+defineProps<{
+	error: ErrorObject
+}>()
 </script>
