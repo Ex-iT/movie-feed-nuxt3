@@ -1,38 +1,9 @@
-import { QueryDocumentSnapshot } from 'firebase-admin/firestore'
-import type { DocumentData } from 'firebase-admin/firestore'
 import getDetails from './getDetails'
 import getMovies from './getMovies'
-import getFirestoreDb from '@/utils/getFirestoreDb'
-import { FIREBASE_COLLECTION, HOUR_SEC } from '@/config'
 import { Days } from '@/types/sharedTypes'
 import type { Programme, Programmes, Movies } from '@/types/sharedTypes'
 
 const epoch = Math.floor(new Date().getTime() / 1000)
-const db = getFirestoreDb()
-const collection = db.collection(FIREBASE_COLLECTION)
-
-const getLatestDoc = async () => {
-	const snapshot = await collection
-		.orderBy('createdAt', 'desc')
-		.limit(1)
-		.get()
-
-	return snapshot.docs.map((doc) => doc.data()).at(0)
-}
-
-const shouldUpdate = async () => {
-	const latestDoc = await getLatestDoc()
-
-	if (latestDoc?.length) {
-		const success = latestDoc.get('log.success')
-		const createdAt = latestDoc.get('createdAt')
-		const coolDownTime = HOUR_SEC * 3
-
-		return !success || epoch >= createdAt + coolDownTime
-	}
-
-	return true
-}
 
 const mergeDetails = async (movies: Movies): Promise<Programme[]> => {
 	let mergedDetails: Programme[] = []
@@ -45,6 +16,7 @@ const mergeDetails = async (movies: Movies): Promise<Programme[]> => {
 		)
 	} catch (error) {
 		if (error instanceof Error) {
+			// eslint-disable-next-line no-console
 			console.error({ error })
 		}
 	}
@@ -95,21 +67,7 @@ const getMovieData = async (): Promise<Programmes> => {
 }
 
 const getProgrammes = async (): Promise<Programmes> => {
-	if (await shouldUpdate()) {
-		const programmes = await getMovieData()
-		const docName = String(new Date().getDay())
-		const docRef = collection.doc(docName)
-
-		// Put programmes in Firestore
-		await docRef.set(programmes)
-
-		return programmes
-	} else {
-		// Return the latest programmes from Firestore
-		return (
-			(await getLatestDoc()) as QueryDocumentSnapshot<DocumentData>
-		).data() as Programmes
-	}
+	return await getMovieData()
 }
 
 export default getProgrammes

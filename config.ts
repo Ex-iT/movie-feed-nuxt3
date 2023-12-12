@@ -1,7 +1,7 @@
 const API_URI = 'https://json.tvgids.nl'
 const API_VERSION = 'v6'
 const ASSET_URI = 'https://tvgidsassets.nl'
-const ASSET_VERSION = 'v273'
+const ASSET_VERSION = 'v323'
 const ASSET_DIMENSIONS = '40x40'
 
 export const MOVIES_URI = `${API_URI}/${API_VERSION}/movies`
@@ -32,4 +32,3 @@ export const CACHING_DEFAULT = `public, max-age=${HOUR_SEC * 0.5}` // 30 minutes
 export const TICK_TIME = 1e3
 export const IMDB_URL = 'https://www.imdb.com/title/'
 export const YT_URL = 'https://www.youtube.com/watch?v='
-export const FIREBASE_COLLECTION = 'MovieFeed_v2'
