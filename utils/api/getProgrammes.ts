@@ -1,9 +1,11 @@
-import { DocumentData, QueryDocumentSnapshot } from 'firebase-admin/firestore'
+import { QueryDocumentSnapshot } from 'firebase-admin/firestore'
+import type { DocumentData } from 'firebase-admin/firestore'
 import getDetails from './getDetails'
 import getMovies from './getMovies'
-import getFirestoreDb from '~~/utils/getFirestoreDb'
-import { FIREBASE_COLLECTION, HOUR_SEC } from '~~/config'
-import { Days, Programme, Programmes, Movies } from '~~/types/sharedTypes'
+import getFirestoreDb from '@/utils/getFirestoreDb'
+import { FIREBASE_COLLECTION, HOUR_SEC } from '@/config'
+import { Days } from '@/types/sharedTypes'
+import type { Programme, Programmes, Movies } from '@/types/sharedTypes'
 
 const epoch = Math.floor(new Date().getTime() / 1000)
 const db = getFirestoreDb()
@@ -19,9 +21,9 @@ const getLatestDoc = async () => {
 }
 
 const shouldUpdate = async () => {
-	const latestDoc = (await getLatestDoc()) || []
+	const latestDoc = await getLatestDoc()
 
-	if (latestDoc.length) {
+	if (latestDoc?.length) {
 		const success = latestDoc.get('log.success')
 		const createdAt = latestDoc.get('createdAt')
 		const coolDownTime = HOUR_SEC * 3
@@ -39,7 +41,7 @@ const mergeDetails = async (movies: Movies): Promise<Programme[]> => {
 			movies.data.map(async (movie) => {
 				const movieDetails = await getDetails(movie.main_id)
 				return { ...movie, details: movieDetails.data }
-			})
+			}),
 		)
 	} catch (error) {
 		if (error instanceof Error) {

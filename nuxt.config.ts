@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import eslintPlugin from 'vite-plugin-eslint'
+
 export default defineNuxtConfig({
+	devtools: { enabled: false },
 	app: {
 		head: {
 			title: 'Films vandaag op de Nederlandse Televisie - MovieFeed | IsHetAlDonderdag.nl',
@@ -32,9 +35,12 @@ export default defineNuxtConfig({
 			],
 		},
 	},
-	css: ['~/assets/css/main.css'],
+	css: ['@/assets/css/main.css'],
 	components: {
-		dirs: ['~/components', '~/views'],
+		dirs: ['@/components', '@/views'],
 	},
-	modules: ['@nuxt/image-edge'],
+	modules: ['@nuxt/image'],
+	vite: {
+		plugins: [eslintPlugin()],
+	},
 })

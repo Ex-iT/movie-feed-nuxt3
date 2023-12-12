@@ -6,15 +6,16 @@ import {
 	CHANNEL_LOGO_SRC,
 	EMPTY_IMG,
 	DEEP_LINK,
-} from '~~/config'
-import fetchData from '~~/utils/fetchData'
-import formatDate from '~~/utils/formatDate'
-import formatHours from '~~/utils/formatHours'
-import formatTime from '~~/utils/formatTime'
-import getEpoch from '~~/utils/getEpoch'
-import getProgress from '~~/utils/getProgress'
-import { Days, Movies, ProgrammeRaw, ProgrammesRaw } from '~~/types/sharedTypes'
-import { MovieData } from '~~/types/MovieData'
+} from '@/config'
+import fetchData from '@/utils/fetchData'
+import formatDate from '@/utils/formatDate'
+import formatHours from '@/utils/formatHours'
+import formatTime from '@/utils/formatTime'
+import getEpoch from '@/utils/getEpoch'
+import getProgress from '@/utils/getProgress'
+import { Days } from '@/types/sharedTypes'
+import type { Movies, ProgrammeRaw, ProgrammesRaw } from '@/types/sharedTypes'
+import type { MovieData } from '@/types/MovieData'
 
 export default async function getMovies(day = Days.today): Promise<Movies> {
 	const url = `${MOVIES_URI}/?day=${day}`
@@ -107,5 +108,8 @@ const getChannelLabel = (id: number) => CHANNELS[id] || ''
 const getDeepLinkUrl = (title: string) =>
 	`${DEEP_LINK}/${slugify(title, {
 		decamelize: false,
-		customReplacements: [['&', '']],
+		customReplacements: [
+			["'", '-'],
+			['&', ''],
+		],
 	})}`

@@ -1,7 +1,7 @@
-import { Details } from './Details'
-import { MetaData } from './MetaData'
-import { MovieData } from './MovieData'
-import { Versioning } from './Versioning'
+import type { Details } from './Details'
+import type { MetaData } from './MetaData'
+import type { MovieData } from './MovieData'
+import type { Versioning } from './Versioning'
 
 export enum Days {
 	today = '0',
@@ -77,6 +77,13 @@ export interface DetailsRaw extends Versioning {
 	}
 }
 
+export interface SimpleError {
+	ok: boolean
+	url: string
+	status: number
+	statusText: string
+}
+
 export interface MovieDetails extends SimpleError {
 	data: Details
 }
@@ -112,11 +119,4 @@ export interface ErrorObject {
 	statusMessage: string
 	message: string
 	stack: string
-}
-
-export interface SimpleError {
-	ok: boolean
-	url: string
-	status: number
-	statusText: string
 }

@@ -1,4 +1,4 @@
-import { SimpleError } from '~~/types/sharedTypes'
+import type { SimpleError } from '@/types/sharedTypes'
 
 interface FetchedDataResponse<T> extends SimpleError {
 	data?: T

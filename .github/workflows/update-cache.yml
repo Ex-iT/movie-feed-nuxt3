@@ -1,20 +1,20 @@
-name: Trigger /programmes API request
+# name: Trigger /programmes API request
 
-on:
-  workflow_dispatch:
-  schedule:
-    # At minute 33 past every 3rd hour. (https://crontab.guru/#33_*/3_*_*_*)
-    - cron: '33 */3 * * *'
+# on:
+#   workflow_dispatch:
+#   schedule:
+#     # At minute 33 past every 3rd hour. (https://crontab.guru/#33_*/3_*_*_*)
+#     - cron: '33 */3 * * *'
 
-jobs:
-  deployment:
-    runs-on: ubuntu-latest
+# jobs:
+#   deployment:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: HTTP request to /programmes endpoint
-        id: cacheRequest
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'https://moviefeed.ishetaldonderdag.nl/api/v1/programmes'
-          method: 'GET'
-          timeout: 10000
+#     steps:
+#       - name: HTTP request to /programmes endpoint
+#         id: cacheRequest
+#         uses: fjogeleit/http-request-action@v1
+#         with:
+#           url: 'https://moviefeed.ishetaldonderdag.nl/api/v1/programmes'
+#           method: 'GET'
+#           timeout: 10000

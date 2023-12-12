@@ -1,4 +1,4 @@
-import { EnrichedMovie } from './EnrichedMovie'
+import type { EnrichedMovie } from './EnrichedMovie'
 
 export interface MovieData extends EnrichedMovie {
 	db_id?: string // Legacy ID

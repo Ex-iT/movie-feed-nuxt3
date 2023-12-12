@@ -1,5 +1,5 @@
-import { Generic } from './Generic'
-import { MetaData } from './MetaData'
+import type { Generic } from './Generic'
+import type { MetaData } from './MetaData'
 
 export interface Details {
 	generic: Generic

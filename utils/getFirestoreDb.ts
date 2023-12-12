@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv'
-import { App, cert, getApp, getApps, initializeApp } from 'firebase-admin/app'
+import { cert, getApp, getApps, initializeApp } from 'firebase-admin/app'
+import type { App } from 'firebase-admin/app'
 import { getFirestore } from 'firebase-admin/firestore'
 
 dotenv.config()
@@ -15,7 +16,7 @@ const getFirestoreDb = () => {
 
 		if (!FIREBASE_PROJECT_ID) {
 			throw new Error(
-				'No Firebase project ID specified, make sure the the env variables are set'
+				'No Firebase project ID specified, make sure the the env variables are set',
 			)
 		}
 

@@ -1,6 +1,6 @@
-import { DETAIL_URI } from '~~/config'
-import { DetailsRaw, MovieDetails } from '~~/types/sharedTypes'
-import fetchData from '~~/utils/fetchData'
+import { DETAIL_URI } from '@/config'
+import type { DetailsRaw, MovieDetails } from '@/types/sharedTypes'
+import fetchData from '@/utils/fetchData'
 
 export default async function getDetails(id: string): Promise<MovieDetails> {
 	const url = `${DETAIL_URI}/${id}`

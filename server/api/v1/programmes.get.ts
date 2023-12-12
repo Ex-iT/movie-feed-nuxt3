@@ -1,5 +1,5 @@
-// import { CACHING_DEFAULT } from '~~/config'
-import getProgrammes from '~~/utils/api/getProgrammes'
+// import { CACHING_DEFAULT } from '@/config'
+import getProgrammes from '@/utils/api/getProgrammes'
 
 export default defineEventHandler(async () => {
 	// export default defineEventHandler(async (event) => {
