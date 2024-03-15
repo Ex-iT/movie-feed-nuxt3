@@ -1,11 +1,11 @@
 import getDetails from './getDetails'
 import getMovies from './getMovies'
 import { Days } from '@/types/sharedTypes'
-import type { Programme, Programmes, Movies } from '@/types/sharedTypes'
+import type { Movies, Programme, Programmes } from '@/types/sharedTypes'
 
 const epoch = Math.floor(new Date().getTime() / 1000)
 
-const mergeDetails = async (movies: Movies): Promise<Programme[]> => {
+async function mergeDetails(movies: Movies): Promise<Programme[]> {
 	let mergedDetails: Programme[] = []
 	try {
 		mergedDetails = await Promise.all(
@@ -14,9 +14,9 @@ const mergeDetails = async (movies: Movies): Promise<Programme[]> => {
 				return { ...movie, details: movieDetails.data }
 			}),
 		)
-	} catch (error) {
+	}
+	catch (error) {
 		if (error instanceof Error) {
-			// eslint-disable-next-line no-console
 			console.error({ error })
 		}
 	}
@@ -24,7 +24,7 @@ const mergeDetails = async (movies: Movies): Promise<Programme[]> => {
 	return mergedDetails
 }
 
-const getMovieData = async (): Promise<Programmes> => {
+async function getMovieData(): Promise<Programmes> {
 	const messages: string[] = []
 	let success = true
 	let today: Programme[] = []
@@ -50,7 +50,8 @@ const getMovieData = async (): Promise<Programmes> => {
 			success = false
 			messages.push('Unable to fetch movie details.')
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		success = false
 		messages.push('Unable to fetch programmes data')
 	}
@@ -66,7 +67,7 @@ const getMovieData = async (): Promise<Programmes> => {
 	}
 }
 
-const getProgrammes = async (): Promise<Programmes> => {
+async function getProgrammes(): Promise<Programmes> {
 	return await getMovieData()
 }
 

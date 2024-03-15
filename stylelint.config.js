@@ -1,5 +1,6 @@
-module.exports = {
-	extends: ['stylelint-config-standard', 'stylelint-config-recommended-vue'],
+/** @type {import('stylelint').Config} */
+export default {
+	extends: ['stylelint-config-recommended-vue'],
 	customSyntax: 'postcss-html',
 	plugins: ['stylelint-order'],
 	rules: {

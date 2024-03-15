@@ -24,9 +24,8 @@ export const CHANNELS: { [key: number]: string } = {
 	440: 'FOX',
 	460: 'SBS 9',
 	496: 'Paramount Network',
-}
-export const EMPTY_IMG =
-	'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+} as const
+export const EMPTY_IMG = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 export const HOUR_SEC = 3600
 export const CACHING_DEFAULT = `public, max-age=${HOUR_SEC * 0.5}` // 30 minutes
 export const TICK_TIME = 1e3

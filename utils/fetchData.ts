@@ -4,7 +4,7 @@ interface FetchedDataResponse<T> extends SimpleError {
 	data?: T
 }
 
-const fetchData = async <T>(uri: string): Promise<FetchedDataResponse<T>> => {
+async function fetchData<T>(uri: string): Promise<FetchedDataResponse<T>> {
 	try {
 		const response = await fetch(uri)
 		const { url, status, statusText } = response
@@ -16,7 +16,8 @@ const fetchData = async <T>(uri: string): Promise<FetchedDataResponse<T>> => {
 			status,
 			statusText,
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		if (error instanceof Error) {
 			console.error({ error })
 		}

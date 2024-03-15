@@ -37,7 +37,8 @@ export default async function getDetails(id: string): Promise<MovieDetails> {
 			status: 500,
 			statusText: `Unable to fetch details for ${id}.`,
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		return {
 			data: movieDetails,
 			ok: false,

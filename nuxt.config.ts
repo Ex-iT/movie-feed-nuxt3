@@ -1,6 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import eslintPlugin from 'vite-plugin-eslint'
-
 export default defineNuxtConfig({
 	devtools: { enabled: false },
 	app: {
@@ -37,10 +35,13 @@ export default defineNuxtConfig({
 	},
 	css: ['@/assets/css/main.css'],
 	components: {
-		dirs: ['@/components', '@/views'],
+		dirs: [
+			'@/components',
+			'@/views',
+		],
 	},
-	modules: ['@nuxt/image'],
-	vite: {
-		plugins: [eslintPlugin()],
-	},
+	modules: [
+		'@nuxt/image',
+		'@nuxtjs/stylelint-module',
+	],
 })

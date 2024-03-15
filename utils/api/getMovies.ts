@@ -1,11 +1,11 @@
 import slugify from '@sindresorhus/slugify'
 import {
-	MOVIES_URI,
 	CHANNELS,
-	DAY_STARTS_AT,
 	CHANNEL_LOGO_SRC,
-	EMPTY_IMG,
+	DAY_STARTS_AT,
 	DEEP_LINK,
+	EMPTY_IMG,
+	MOVIES_URI,
 } from '@/config'
 import fetchData from '@/utils/fetchData'
 import formatDate from '@/utils/formatDate'
@@ -40,7 +40,8 @@ export default async function getMovies(day = Days.today): Promise<Movies> {
 			status: 500,
 			statusText: `Unable to fetch data from: ${url}`,
 		}
-	} catch (error) {
+	}
+	catch (error) {
 		return {
 			data: [],
 			ok: false,
@@ -51,7 +52,7 @@ export default async function getMovies(day = Days.today): Promise<Movies> {
 	}
 }
 
-const filterChannels = (channels: Array<ProgrammeRaw>): Array<MovieData> => {
+function filterChannels(channels: Array<ProgrammeRaw>): Array<MovieData> {
 	const channelData = channels.filter((channel) => {
 		return Object.keys(CHANNELS).includes(channel.ch_id)
 	})
@@ -59,14 +60,18 @@ const filterChannels = (channels: Array<ProgrammeRaw>): Array<MovieData> => {
 	return enrichData(channelData)
 }
 
-const enrichData = (channelData: Array<ProgrammeRaw>): Array<MovieData> => {
+function getChannelLabel(id: number) {
+	return CHANNELS[id] || ''
+}
+
+function enrichData(channelData: Array<ProgrammeRaw>): Array<MovieData> {
 	const ONE_DAY = 24 * 3600
 	return channelData
 		.map((movie) => {
 			const { ch_id, ps, pe } = movie
 			const now = getEpoch()
-			let start = parseInt(ps, 10)
-			let end = parseInt(pe, 10)
+			let start = Number.parseInt(ps, 10)
+			let end = Number.parseInt(pe, 10)
 
 			// Fix for end time before start time
 			if (end < start) {
@@ -75,7 +80,7 @@ const enrichData = (channelData: Array<ProgrammeRaw>): Array<MovieData> => {
 
 			// Adjust start time to make the next
 			// day start at `NEXT_STARTS_AT` at night
-			if (parseInt(formatHours(start), 10) <= DAY_STARTS_AT) {
+			if (Number.parseInt(formatHours(start), 10) <= DAY_STARTS_AT) {
 				start = start + ONE_DAY
 				end = end + ONE_DAY
 			}
@@ -83,7 +88,7 @@ const enrichData = (channelData: Array<ProgrammeRaw>): Array<MovieData> => {
 			return {
 				...movie,
 				channel_logo: getChannelLogo(ch_id),
-				channel_label: getChannelLabel(parseInt(ch_id, 10)),
+				channel_label: getChannelLabel(Number.parseInt(ch_id, 10)),
 				start: formatTime(start),
 				end: formatTime(end),
 				is_passed: now > end,
@@ -96,20 +101,20 @@ const enrichData = (channelData: Array<ProgrammeRaw>): Array<MovieData> => {
 				pe: String(end),
 			}
 		})
-		.sort((a, z) => parseInt(a.ps, 10) - parseInt(z.ps, 10)) // Sort with original timestamp
-		.sort((a, z) => parseInt(a.ch_id, 10) - parseInt(z.ch_id, 10))
+		.sort((a, z) => Number.parseInt(a.ps, 10) - Number.parseInt(z.ps, 10)) // Sort with original timestamp
+		.sort((a, z) => Number.parseInt(a.ch_id, 10) - Number.parseInt(z.ch_id, 10))
 }
 
-const getChannelLogo = (id: string) =>
-	id ? CHANNEL_LOGO_SRC.replace(/%s/g, id) : EMPTY_IMG
+function getChannelLogo(id: string) {
+	return id ? CHANNEL_LOGO_SRC.replace(/%s/g, id) : EMPTY_IMG
+}
 
-const getChannelLabel = (id: number) => CHANNELS[id] || ''
-
-const getDeepLinkUrl = (title: string) =>
-	`${DEEP_LINK}/${slugify(title, {
+function getDeepLinkUrl(title: string) {
+	return `${DEEP_LINK}/${slugify(title, {
 		decamelize: false,
 		customReplacements: [
-			["'", '-'],
+			['\'', '-'],
 			['&', ''],
 		],
 	})}`
+}

@@ -1,3 +1,13 @@
+<script setup lang="ts">
+defineProps<{
+	src: string
+}>()
+
+defineComponent({
+	name: 'BackgroundImage',
+})
+</script>
+
 <template>
 	<nuxt-picture
 		:src="src"
@@ -6,16 +16,6 @@
 		decoding="async"
 	/>
 </template>
-
-<script setup lang="ts">
-defineComponent({
-	name: 'BackgroundImage',
-})
-
-defineProps<{
-	src: string
-}>()
-</script>
 
 <style scoped>
 picture {

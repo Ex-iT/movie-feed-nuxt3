@@ -4,7 +4,7 @@ export interface Versioning {
 		'nl.tvgids.app': string
 		'nl.tvgids.app.ipad': string
 		'nl.tvgids': string
-		startsBeforeFeedback: number
-		daysBeforeFeedbackRetry: number
+		'startsBeforeFeedback': number
+		'daysBeforeFeedbackRetry': number
 	}
 }
